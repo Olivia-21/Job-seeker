@@ -1,0 +1,6 @@
+{
+  "name": "job-hunt-dashboard",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" }
+}

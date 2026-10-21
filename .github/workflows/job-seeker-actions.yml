@@ -1,0 +1,79 @@
+name: Job Seeker Actions
+run-name: "${{ inputs.task }}${{ inputs.arg && format(' ({0})', inputs.arg) || '' }}"
+
+# Started from the dashboard buttons (or Actions tab -> Run workflow).
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: What to run
+        required: true
+        type: choice
+        options: [send, followups, check-replies, generate, backfill-sources, refilter, test-send]
+      arg:
+        description: Optional argument (companies for generate as "A|B", track for test-send)
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+# Never overlaps with the daily run or another action; queued ones wait their turn.
+concurrency:
+  group: job-seeker
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements.txt
+
+      - name: Run ${{ inputs.task }}
+        env:
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          HUNTER_API_KEY: ${{ secrets.HUNTER_API_KEY }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GOOGLE_AI_STUDIO_API_KEY: ${{ secrets.GOOGLE_AI_STUDIO_API_KEY }}
+          TASK: ${{ inputs.task }}
+          ARG: ${{ inputs.arg }}
+        run: |
+          case "$TASK" in
+            send)             python outreach_pipeline.py send ;;
+            followups)        python followup_pipeline.py run ;;
+            check-replies)    python check_emails.py ;;
+            generate)         python outreach_pipeline.py generate "$ARG" ;;
+            backfill-sources) python outreach_pipeline.py backfill-sources ;;
+            refilter)         python outreach_pipeline.py refilter ;;
+            test-send)        python outreach_pipeline.py test-send "${ARG:-data_engineer}" ;;
+            *) echo "Unknown task $TASK"; exit 1 ;;
+          esac
+
+      - name: Save results to the repo
+        if: always()
+        run: |
+          git config user.name "YOUR NAME"
+          git config user.email "your.email@gmail.com"
+          git config merge.queue.driver "python merge_queue.py %O %A %B"
+          git config merge.keepours.driver true
+          mkdir -p generated_letters
+          git add outreach_queue.csv outreach_log.csv replies_log.csv generated_letters
+          git diff --cached --quiet && exit 0
+          git commit -m "Bot: ${{ inputs.task }} [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          exit 1

@@ -1,0 +1,216 @@
+{
+  "_comment": "Everything personal lives here. Edit this file (not the Python) to change your details, roles, search queries or letter wording.",
+  "name": "YOUR FULL NAME",
+  "short_name": "YOUR NAME",
+  "file_prefix": "Your_Name",
+  "headline": "TODO: your headline, e.g. Data Engineer | Analyst",
+  "email": "your.email@gmail.com",
+  "phone": "+233 XX XXX XXXX",
+  "location": "Accra, Ghana",
+  "linkedin": "",
+  "github": "",
+  "portfolio": "",
+  "cv_file": "Your_Name_CV.pdf",
+  "background": "TODO: one sentence that completes 'I am ...', e.g. your degree, university and current role",
+  "limits": {
+    "daily_send_cap": 15,
+    "daily_followup_cap": 10,
+    "followup_after_days": 6,
+    "daily_search_queries": 4,
+    "scrape_batch": 10,
+    "verify_batch": 10,
+    "posting_lookups_per_run": 15
+  },
+  "locations": [
+    "Accra, Ghana",
+    "Remote"
+  ],
+  "lead_filters": {
+    "blocked_domain_suffixes": [
+      ".gov",
+      ".gov.gh",
+      ".edu",
+      ".edu.gh",
+      ".ac.uk",
+      ".mil",
+      ".int"
+    ],
+    "blocked_domains": [
+      "linkedin.com",
+      "indeed.com",
+      "glassdoor.com",
+      "jobberman.com",
+      "jobberman.com.gh",
+      "myjobmag.com",
+      "ghanajob.com",
+      "jobsinghana.com",
+      "jobweb.com.gh",
+      "ghanacurrentjobs.com",
+      "remoteok.com",
+      "weworkremotely.com",
+      "wellfound.com",
+      "upwork.com",
+      "fiverr.com",
+      "remotive.com",
+      "himalayas.app",
+      "wikipedia.org",
+      "facebook.com",
+      "twitter.com",
+      "x.com",
+      "youtube.com",
+      "medium.com",
+      "reddit.com",
+      "google.com",
+      "github.com",
+      "ziprecruiter.com",
+      "monster.com",
+      "careerjet.com",
+      "jooble.org"
+    ],
+    "blocked_names": [
+      "accra",
+      "ghana",
+      "kumasi",
+      "takoradi",
+      "tema",
+      "tarkwa",
+      "remote",
+      "africa",
+      "west africa",
+      "unknown",
+      "home",
+      "careers",
+      "jobs",
+      "job openings",
+      "about us",
+      "contact us"
+    ],
+    "excluded_companies": [
+      "AmaliTech"
+    ]
+  },
+  "tracks": {
+    "data_engineer": {
+      "label": "Data / Analytics Engineer",
+      "priority": "prime",
+      "role_title": "Data Engineer",
+      "subject": "Data Engineering Application - YOUR NAME",
+      "queries": [
+        "data engineer job vacancy Accra Ghana",
+        "analytics engineer job opening remote Africa",
+        "remote data engineer jobs open to candidates in Africa",
+        "ETL developer or BI developer job vacancy Accra Ghana",
+        "Microsoft Fabric or Azure data engineer job opening remote",
+        "junior data engineer graduate job Ghana"
+      ],
+      "pitch": "TODO: one-sentence pitch for Data / Analytics Engineer roles, ending with a colon:",
+      "highlights": [
+        "<b>TODO highlight 1:</b> a concrete achievement relevant to Data / Analytics Engineer roles.",
+        "<b>TODO highlight 2:</b> a concrete achievement relevant to Data / Analytics Engineer roles.",
+        "<b>TODO highlight 3:</b> a concrete achievement relevant to Data / Analytics Engineer roles."
+      ],
+      "closing_focus": "data engineering skills"
+    },
+    "data_analyst": {
+      "label": "Data Analyst / Specialist",
+      "priority": "prime",
+      "role_title": "Data Analyst",
+      "subject": "Data Analyst Application - YOUR NAME",
+      "queries": [
+        "data analyst job vacancy Accra Ghana",
+        "data specialist job opening Ghana",
+        "business intelligence analyst Power BI job vacancy Accra",
+        "remote data analyst jobs open to candidates in Africa",
+        "junior data analyst graduate trainee job Ghana",
+        "reporting and data analyst job vacancy Accra bank or telecom"
+      ],
+      "pitch": "TODO: one-sentence pitch for Data Analyst / Specialist roles, ending with a colon:",
+      "highlights": [
+        "<b>TODO highlight 1:</b> a concrete achievement relevant to Data Analyst / Specialist roles.",
+        "<b>TODO highlight 2:</b> a concrete achievement relevant to Data Analyst / Specialist roles.",
+        "<b>TODO highlight 3:</b> a concrete achievement relevant to Data Analyst / Specialist roles."
+      ],
+      "closing_focus": "analytical skills"
+    },
+    "data_scientist": {
+      "label": "Data Scientist / ML",
+      "priority": "prime",
+      "role_title": "Data Scientist",
+      "subject": "Data Science Application - YOUR NAME",
+      "queries": [
+        "data scientist job vacancy Accra Ghana",
+        "machine learning engineer job opening remote Africa",
+        "junior data scientist job remote Africa",
+        "AI and data science job opening Ghana"
+      ],
+      "pitch": "TODO: one-sentence pitch for Data Scientist / ML roles, ending with a colon:",
+      "highlights": [
+        "<b>TODO highlight 1:</b> a concrete achievement relevant to Data Scientist / ML roles.",
+        "<b>TODO highlight 2:</b> a concrete achievement relevant to Data Scientist / ML roles.",
+        "<b>TODO highlight 3:</b> a concrete achievement relevant to Data Scientist / ML roles."
+      ],
+      "closing_focus": "data science and machine learning skills"
+    },
+    "data_researcher": {
+      "label": "Research (Analyst / Engineer / Scientist)",
+      "priority": "prime",
+      "role_title": "Data Researcher",
+      "subject": "Data Research Application - YOUR NAME",
+      "queries": [
+        "research analyst job vacancy Accra Ghana",
+        "research engineer data job opening remote",
+        "research scientist data or AI job opening remote Africa",
+        "monitoring and evaluation data officer job vacancy Ghana",
+        "research assistant data job NGO Accra",
+        "remote research analyst jobs open to candidates in Africa"
+      ],
+      "pitch": "TODO: one-sentence pitch for Research (Analyst / Engineer / Scientist) roles, ending with a colon:",
+      "highlights": [
+        "<b>TODO highlight 1:</b> a concrete achievement relevant to Research (Analyst / Engineer / Scientist) roles.",
+        "<b>TODO highlight 2:</b> a concrete achievement relevant to Research (Analyst / Engineer / Scientist) roles.",
+        "<b>TODO highlight 3:</b> a concrete achievement relevant to Research (Analyst / Engineer / Scientist) roles."
+      ],
+      "closing_focus": "research and data skills"
+    },
+    "it_specialist": {
+      "label": "IT Specialist / Support",
+      "priority": "prime",
+      "role_title": "IT Specialist",
+      "subject": "IT Specialist Application - YOUR NAME",
+      "queries": [
+        "IT specialist job vacancy Accra Ghana",
+        "IT support officer job opening Accra",
+        "systems administrator job vacancy Ghana",
+        "network technician or IT field engineer job Accra",
+        "graduate IT officer job vacancy Ghana",
+        "remote IT support specialist jobs Africa"
+      ],
+      "pitch": "TODO: one-sentence pitch for IT Specialist / Support roles, ending with a colon:",
+      "highlights": [
+        "<b>TODO highlight 1:</b> a concrete achievement relevant to IT Specialist / Support roles.",
+        "<b>TODO highlight 2:</b> a concrete achievement relevant to IT Specialist / Support roles.",
+        "<b>TODO highlight 3:</b> a concrete achievement relevant to IT Specialist / Support roles."
+      ],
+      "closing_focus": "technical and field skills"
+    },
+    "electrical_engineer": {
+      "label": "Electrical Engineer",
+      "priority": "plus",
+      "role_title": "Graduate Electrical Engineer",
+      "subject": "Electrical Engineering Application - YOUR NAME",
+      "queries": [
+        "electrical engineer job vacancy Accra Ghana",
+        "graduate electrical engineer job opening Ghana",
+        "solar PV engineer or technician job vacancy Ghana",
+        "maintenance electrical engineer job vacancy Ghana power or manufacturing"
+      ],
+      "pitch": "TODO: one-sentence pitch for Electrical Engineer roles, ending with a colon:",
+      "highlights": [
+        "<b>TODO highlight 1:</b> a concrete achievement relevant to Electrical Engineer roles.",
+        "<b>TODO highlight 2:</b> a concrete achievement relevant to Electrical Engineer roles.",
+        "<b>TODO highlight 3:</b> a concrete achievement relevant to Electrical Engineer roles."
+      ],
+      "closing_focus": "engineering skills"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+outreach_queue.csv merge=queue
+outreach_log.csv merge=union
+replies_log.csv merge=union
+generated_letters/*.pdf merge=keepours

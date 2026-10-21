@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Test letters from test-send
+generated_letters/TEST_*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db
+*.tmp

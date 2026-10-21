@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f6f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<title>Job Hunt</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a78d6'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/* ============================================================ tokens */
+:root {
+  color-scheme: light;
+  --page: #f6f6f3;
+  --surface: #fdfdfc;
+  --surface-2: #f1f0ec;
+  --surface-3: #e9e8e3;
+  --ink: #0f0f0e;
+  --ink-2: #4b4a46;
+  --muted: #85837c;
+  --line: #e4e3dd;
+  --line-strong: #d3d2ca;
+  --grid: #e7e6e0;
+  --axis: #c3c2b7;
+  --accent: #2a78d6;
+  --accent-ink: #1d5fae;
+  --accent-wash: rgba(42,120,214,.09);
+  --accent-wash-2: rgba(42,120,214,.16);
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --rest: #d8d7d0;
+  --good: #0ca30c;
+  --good-ink: #0a7a0a;
+  --good-wash: rgba(12,163,12,.10);
+  --warn: #c98500;
+  --warn-wash: rgba(250,178,25,.16);
+  --bad: #d03b3b;
+  --bad-wash: rgba(208,59,59,.10);
+  --shadow-sm: 0 1px 2px rgba(15,15,14,.05);
+  --shadow: 0 1px 2px rgba(15,15,14,.04), 0 6px 24px rgba(15,15,14,.06);
+  --shadow-lg: 0 24px 60px rgba(15,15,14,.18);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --sidebar: 248px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0e0e0d; --surface: #181817; --surface-2: #20201e; --surface-3: #2a2a27;
+    --ink: #f7f7f5; --ink-2: #c3c2b7; --muted: #8d8b84; --line: #2a2a27; --line-strong: #383835;
+    --grid: #262624; --axis: #3d3d39; --accent: #3987e5; --accent-ink: #78aef0;
+    --accent-wash: rgba(57,135,229,.14); --accent-wash-2: rgba(57,135,229,.24);
+    --series-1: #3987e5; --series-2: #d95926; --rest: #3a3a36;
+    --good-ink: #3fc63f; --good-wash: rgba(12,163,12,.18); --warn: #fab219; --warn-wash: rgba(250,178,25,.14);
+    --bad: #e66767; --bad-wash: rgba(230,103,103,.14);
+    --shadow-sm: none; --shadow: 0 0 0 1px rgba(255,255,255,.02); --shadow-lg: 0 24px 60px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0e0e0d; --surface: #181817; --surface-2: #20201e; --surface-3: #2a2a27;
+  --ink: #f7f7f5; --ink-2: #c3c2b7; --muted: #8d8b84; --line: #2a2a27; --line-strong: #383835;
+  --grid: #262624; --axis: #3d3d39; --accent: #3987e5; --accent-ink: #78aef0;
+  --accent-wash: rgba(57,135,229,.14); --accent-wash-2: rgba(57,135,229,.24);
+  --series-1: #3987e5; --series-2: #d95926; --rest: #3a3a36;
+  --good-ink: #3fc63f; --good-wash: rgba(12,163,12,.18); --warn: #fab219; --warn-wash: rgba(250,178,25,.14);
+  --bad: #e66767; --bad-wash: rgba(230,103,103,.14);
+  --shadow-sm: none; --shadow: 0 0 0 1px rgba(255,255,255,.02); --shadow-lg: 0 24px 60px rgba(0,0,0,.6);
+}
+
+/* ============================================================ base */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--page); color: var(--ink);
+  font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.muted { color: var(--muted); }
+.tnum { font-variant-numeric: tabular-nums; }
+svg.i { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ============================================================ shell */
+.app { display: grid; grid-template-columns: var(--sidebar) 1fr; min-height: 100vh; }
+.side {
+  position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 4px;
+  padding: 18px 14px; border-right: 1px solid var(--line); background: var(--surface);
+}
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px; }
+.brand .logo { width: 30px; height: 30px; border-radius: 9px; background: var(--accent); display: grid; place-items: center; color: #fff; }
+.brand b { font-size: 15px; letter-spacing: -.01em; }
+.brand small { display: block; color: var(--muted); font-size: 12px; margin-top: -2px; }
+.nav-btn {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 9px;
+  border: 0; background: none; color: var(--ink-2); cursor: pointer; text-align: left; font-weight: 500;
+}
+.nav-btn:hover { background: var(--surface-2); color: var(--ink); }
+.nav-btn[aria-current="page"] { background: var(--accent-wash); color: var(--accent-ink); }
+.nav-btn .count { margin-left: auto; font-size: 11.5px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--surface-3); color: var(--ink-2); }
+.nav-btn[aria-current="page"] .count { background: var(--accent); color: #fff; }
+.side .spacer { flex: 1; }
+.me { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 12px; border: 1px solid var(--line); }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-wash-2); color: var(--accent-ink); display: grid; place-items: center; font-weight: 700; font-size: 13px; flex: none; }
+.me .who { min-width: 0; }
+.me .who b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.me .who span { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.side-actions { display: flex; gap: 6px; margin-top: 8px; }
+
+.main { min-width: 0; padding: 26px 32px 64px; }
+.topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.topbar h1 { font-size: 24px; line-height: 1.2; letter-spacing: -.02em; margin: 0; }
+.topbar p { margin: 4px 0 0; color: var(--ink-2); }
+.top-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.sync { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--muted); padding: 0 4px; }
+.sync .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.sync .dot.run { background: var(--warn); animation: pulse 1.2s infinite; }
+.sync .dot.fail { background: var(--bad); }
+@keyframes pulse { 50% { opacity: .35; } }
+
+/* ============================================================ controls */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 13px; border-radius: 9px;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer;
+  font-weight: 500; font-size: 13px; white-space: nowrap; box-shadow: var(--shadow-sm);
+}
+.btn:hover { background: var(--surface-2); text-decoration: none; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.primary { background: var(--accent); border-color: transparent; color: #fff; }
+.btn.primary:hover { background: var(--accent-ink); }
+.btn.ghost { border-color: transparent; background: none; box-shadow: none; }
+.btn.ghost:hover { background: var(--surface-2); }
+.btn.sm { height: 28px; padding: 0 10px; font-size: 12.5px; border-radius: 8px; }
+.btn.icon { width: 34px; padding: 0; justify-content: center; }
+.btn.sm.icon { width: 28px; }
+.btn.good { color: var(--good-ink); }
+.input, .select {
+  height: 34px; padding: 0 11px; border-radius: 9px; border: 1px solid var(--line-strong);
+  background: var(--surface); color: var(--ink); min-width: 0;
+}
+.select { padding-right: 28px; }
+textarea.input { height: auto; padding: 9px 11px; resize: vertical; line-height: 1.45; }
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); flex-wrap: wrap; }
+.seg button { border: 0; background: none; padding: 5px 11px; border-radius: 7px; cursor: pointer; color: var(--ink-2); font-weight: 500; font-size: 13px; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm), 0 0 0 1px var(--line); }
+.seg button .n { color: var(--muted); font-weight: 500; margin-left: 4px; font-size: 12px; }
+
+/* ============================================================ cards & kpis */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; min-width: 0; }
+.card-h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.card-h h2 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: -.005em; }
+.card-h .sub { font-size: 12px; color: var(--muted); }
+.grid { display: grid; gap: 14px; }
+.kpis { grid-template-columns: 1.5fr repeat(4, 1fr); margin-bottom: 14px; }
+.kpi .label { font-size: 12.5px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+.kpi .value { font-size: 30px; font-weight: 650; letter-spacing: -.03em; margin-top: 6px; line-height: 1.1; }
+.kpi.hero .value { font-size: 50px; }
+.kpi .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.meter { height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin-top: 12px; }
+.meter i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.kpi.clickable { cursor: pointer; transition: border-color .15s; }
+.kpi.clickable:hover { border-color: var(--line-strong); }
+.row2 { grid-template-columns: 1fr 1.3fr; margin-bottom: 14px; }
+.row3 { grid-template-columns: 1fr 1fr 1.1fr; }
+
+.hbars { display: grid; gap: 10px; }
+.hrow { display: grid; grid-template-columns: 118px 1fr 70px; align-items: center; gap: 10px; font-size: 13px; }
+.hrow .name { color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hrow .num { text-align: right; font-variant-numeric: tabular-nums; }
+.hrow .num small { color: var(--muted); font-size: 11px; margin-left: 4px; }
+.bar { height: 16px; display: flex; gap: 2px; }
+.bar i { display: block; height: 100%; }
+.bar i:last-child { border-radius: 0 4px 4px 0; }
+.bar i.s1 { background: var(--series-1); } .bar i.s2 { background: var(--series-2); } .bar i.rest { background: var(--rest); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); margin: -4px 0 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+#activity { width: 100%; height: 200px; display: block; }
+#activity text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+.mini-list { display: grid; gap: 2px; }
+.mini { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 9px 10px; border-radius: 10px; cursor: pointer; }
+.mini:hover { background: var(--surface-2); }
+.mini b { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; grid-column: 1; }
+.mini .go { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+
+/* ============================================================ chips & badges */
+.chip { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 12px; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); white-space: nowrap; }
+.chip.track { background: var(--accent-wash); color: var(--accent-ink); border-color: transparent; }
+.chip.new { background: var(--good-wash); color: var(--good-ink); border-color: transparent; font-weight: 600; }
+.chip.skill { background: none; }
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 2px 9px 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.status i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.status.approved { background: var(--accent-wash); color: var(--accent-ink); } .status.approved i { background: var(--accent); }
+.status.sent, .status.followup-sent { background: var(--surface-3); color: var(--ink); } .status.sent i, .status.followup-sent i { background: var(--ink-2); }
+.status.replied, .status.interview, .status.offer { background: var(--good-wash); color: var(--good-ink); } .status.replied i, .status.interview i, .status.offer i { background: var(--good); }
+.status.rejected, .status.bounced, .status.failed { background: var(--bad-wash); color: var(--bad); } .status.rejected i, .status.bounced i, .status.failed i { background: var(--bad); }
+.status.skipped { color: var(--muted); }
+.status.needs-contact { background: var(--warn-wash); color: var(--ink); } .status.needs-contact i { background: var(--warn); }
+.contact-form { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); }
+.contact-form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.contact-form .hint { font-size: 12.5px; color: var(--ink-2); }
+.row5 { grid-template-columns: 1fr 1fr; margin-top: 14px; }
+@media (max-width: 1080px) { .row5 { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .contact-form .two { grid-template-columns: 1fr; } }
+
+/* ============================================================ opportunities */
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.toolbar .search { flex: 1 1 220px; position: relative; }
+.toolbar .search .input { width: 100%; padding-left: 34px; }
+.toolbar .search svg { position: absolute; left: 11px; top: 9px; color: var(--muted); }
+.bulk { position: sticky; top: 10px; z-index: 5; display: none; align-items: center; gap: 10px; padding: 8px 10px 8px 14px; margin-bottom: 12px; border-radius: 12px; background: var(--ink); color: var(--surface); box-shadow: var(--shadow-lg); }
+.bulk.on { display: flex; }
+.bulk .btn { background: transparent; color: var(--surface); border-color: rgba(255,255,255,.25); box-shadow: none; }
+.bulk .btn.primary { background: var(--accent); border-color: transparent; color: #fff; }
+.bulk span { margin-right: auto; font-weight: 500; }
+.list { display: grid; gap: 10px; }
+.opp {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: start;
+  padding: 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line);
+  box-shadow: var(--shadow); cursor: pointer; transition: border-color .15s, transform .15s;
+}
+.opp:hover { border-color: var(--line-strong); }
+.opp.sel { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+.opp .check { padding-top: 3px; }
+.opp .check input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+.opp .body { min-width: 0; }
+.opp .t1 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.opp .t1 h3 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.opp .role { font-size: 13.5px; color: var(--ink); margin-top: 2px; }
+.opp .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; font-size: 12.5px; color: var(--ink-2); }
+.opp .meta span { display: inline-flex; align-items: center; gap: 5px; min-width: 0; }
+.opp .meta svg { color: var(--muted); width: 14px; height: 14px; }
+.opp .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.opp .side-col { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.opp .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.src-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 12.5px; }
+.empty { padding: 48px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: var(--radius); }
+.empty b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
+
+/* ============================================================ drawer */
+.scrim { position: fixed; inset: 0; background: rgba(10,10,9,.35); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 40; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.drawer {
+  position: fixed; top: 0; right: 0; height: 100%; width: min(520px, 100%); z-index: 50;
+  background: var(--surface); border-left: 1px solid var(--line); box-shadow: var(--shadow-lg);
+  transform: translateX(102%); transition: transform .22s ease, visibility .22s; display: flex; flex-direction: column; visibility: hidden;
+}
+.drawer.on { transform: none; visibility: visible; }
+.drawer header { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; align-items: flex-start; }
+.drawer header h2 { margin: 0; font-size: 19px; letter-spacing: -.015em; }
+.drawer header .role { color: var(--ink-2); margin-top: 2px; }
+.drawer .content { padding: 18px 20px 28px; overflow-y: auto; display: grid; gap: 18px; align-content: start; }
+.drawer footer { padding: 12px 20px; border-top: 1px solid var(--line); display: flex; gap: 8px; flex-wrap: wrap; }
+.sec h4 { margin: 0 0 8px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.listing { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: var(--surface-2); }
+.listing .lt { font-weight: 600; font-size: 13.5px; }
+.listing .lu { font-size: 12px; color: var(--muted); word-break: break-all; margin-top: 2px; }
+.listing p { margin: 10px 0 12px; font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 8px 12px; font-size: 13px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; min-width: 0; word-break: break-word; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 12px; color: var(--ink-2); font-weight: 500; }
+
+/* ============================================================ replies */
+.reply { padding: 14px 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.reply .top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.reply .top b { font-size: 14px; }
+.reply p { margin: 6px 0 0; color: var(--ink-2); }
+
+/* ============================================================ misc */
+.tip { position: fixed; z-index: 60; pointer-events: none; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; font-size: 12px; box-shadow: var(--shadow-lg); opacity: 0; transition: opacity .08s; min-width: 140px; }
+.tip b { display: block; margin-bottom: 4px; }
+.tip .r { display: flex; justify-content: space-between; gap: 14px; }
+.tip .k { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); }
+.tip .k i { width: 8px; height: 8px; border-radius: 2px; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 12px); background: var(--ink); color: var(--surface); padding: 10px 16px; border-radius: 10px; font-weight: 500; opacity: 0; transition: .2s; z-index: 70; pointer-events: none; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+.banner { display: none; margin-bottom: 14px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--bad); background: var(--bad-wash); color: var(--ink); }
+.banner.on { display: block; }
+.skeleton { height: 120px; border-radius: var(--radius); background: linear-gradient(90deg, var(--surface-2), var(--surface-3), var(--surface-2)); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* actions, runs, modal */
+.row4 { grid-template-columns: 1.15fr 1fr .85fr; margin-top: 14px; }
+.qa { display: grid; gap: 8px; }
+.qa-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; text-align: left; }
+.qa-btn:hover { background: var(--surface-2); }
+.qa-btn:disabled { opacity: .5; cursor: default; background: var(--surface); }
+.qa-btn .ic { width: 34px; height: 34px; border-radius: 9px; background: var(--accent-wash); color: var(--accent-ink); display: grid; place-items: center; flex: none; }
+.qa-btn.primary .ic { background: var(--accent); color: #fff; }
+.qa-btn b { display: block; font-size: 13.5px; font-weight: 600; }
+.qa-btn span { display: block; font-size: 12px; color: var(--muted); }
+.qa-btn .badge { margin-left: auto; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface-3); color: var(--ink-2); }
+.qa-btn.primary .badge { background: var(--accent); color: #fff; }
+.runs { display: grid; gap: 2px; }
+.run { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 8px 8px; border-radius: 9px; font-size: 13px; color: var(--ink); }
+.run:hover { background: var(--surface-2); text-decoration: none; }
+.run .when { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.run .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); display: inline-block; flex: none; }
+.dot.run { background: var(--warn); animation: pulse 1.2s infinite; }
+.dot.fail { background: var(--bad); }
+.cvbox { display: flex; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); margin-bottom: 12px; }
+.cvbox .ic { width: 38px; height: 46px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--bad); font-size: 10px; font-weight: 700; flex: none; }
+.cvbox b { display: block; font-size: 13px; word-break: break-all; }
+.cvbox span { font-size: 12px; color: var(--muted); }
+.modal-wrap { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; background: rgba(10,10,9,.42); }
+.modal { width: min(440px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 22px; }
+.modal h3 { margin: 0 0 8px; font-size: 17px; letter-spacing: -.01em; }
+.modal p { margin: 0 0 18px; color: var(--ink-2); line-height: 1.55; }
+.modal .row { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.modal select { width: 100%; margin: -6px 0 18px; }
+
+/* login */
+.login { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+.login .card { width: min(380px, 100%); padding: 28px; }
+.login h1 { margin: 14px 0 4px; font-size: 21px; letter-spacing: -.02em; }
+.login p { margin: 0 0 18px; color: var(--ink-2); }
+.login form { display: grid; gap: 10px; }
+.login .err { color: var(--bad); font-size: 13px; min-height: 18px; }
+
+/* mobile nav */
+.tabbar { display: none; }
+@media (max-width: 1080px) {
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .kpi.hero { grid-column: 1 / -1; }
+  .row2, .row3, .row4 { grid-template-columns: 1fr; }
+}
+@media (max-width: 820px) {
+  .app { grid-template-columns: 1fr; }
+  .side { display: none; }
+  .main { padding: 18px 16px calc(84px + env(safe-area-inset-bottom)); }
+  .topbar h1 { font-size: 21px; }
+  .tabbar {
+    display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    background: var(--surface); border-top: 1px solid var(--line); padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  }
+  .tabbar button { border: 0; background: none; display: grid; justify-items: center; gap: 2px; padding: 6px; color: var(--muted); font-size: 11px; font-weight: 500; border-radius: 9px; position: relative; }
+  .tabbar button[aria-current="page"] { color: var(--accent-ink); }
+  .tabbar svg { width: 20px; height: 20px; }
+  .tabbar .count { position: absolute; top: 2px; left: calc(50% + 6px); background: var(--accent); color: #fff; font-size: 10px; padding: 0 5px; border-radius: 999px; line-height: 16px; }
+  .opp { grid-template-columns: auto 1fr; }
+  .opp .side-col { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 12px; }
+  .hrow { grid-template-columns: 100px 1fr 62px; }
+  .kpi.hero .value { font-size: 42px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-11"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4 19a1 1 0 0 0 .9 1.5h14.2A1 1 0 0 0 20 19l-6-10V3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></symbol>
+</svg>
+
+<div id="login" class="login" hidden>
+  <div class="card">
+    <div class="brand" style="padding:0"><div class="logo"><svg class="i"><use href="#i-check"/></svg></div></div>
+    <h1>Job Hunt</h1>
+    <p>Sign in to see your opportunities.</p>
+    <form id="loginForm">
+      <label class="sr" for="pw">Password</label>
+      <input class="input" id="pw" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button class="btn primary" type="submit" style="justify-content:center">Sign in</button>
+      <div class="err" id="loginErr" role="alert"></div>
+    </form>
+  </div>
+</div>
+
+<div id="app" class="app" hidden>
+  <aside class="side" aria-label="Main navigation">
+    <div class="brand">
+      <div class="logo"><svg class="i"><use href="#i-check"/></svg></div>
+      <div><b>Job Hunt</b><small>Accra · Remote</small></div>
+    </div>
+    <button class="nav-btn" data-nav="overview"><svg class="i"><use href="#i-home"/></svg>Overview</button>
+    <button class="nav-btn" data-nav="opps"><svg class="i"><use href="#i-brief"/></svg>Opportunities<span class="count" id="navReview"></span></button>
+    <button class="nav-btn" data-nav="replies"><svg class="i"><use href="#i-mail"/></svg>Replies<span class="count" id="navReplies"></span></button>
+    <div class="spacer"></div>
+    <div class="me">
+      <div class="avatar" id="avatar">C</div>
+      <div class="who"><b id="meName"></b><span id="meEmail"></span></div>
+    </div>
+    <div class="side-actions">
+      <button class="btn sm" id="themeBtn" title="Switch light / dark"><svg class="i"><use href="#i-moon"/></svg>Theme</button>
+      <button class="btn sm" id="logoutBtn" hidden><svg class="i"><use href="#i-out"/></svg>Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="banner" id="banner" role="alert"></div>
+    <div class="topbar">
+      <div><h1 id="pageTitle">Overview</h1><p id="pageSub"></p></div>
+      <div class="top-actions">
+        <span class="sync" id="sync"></span>
+        <button class="btn primary" id="sendBtn" hidden><svg class="i"><use href="#i-send"/></svg><span id="sendLabel">Send approved</span></button>
+        <button class="btn icon" id="refreshBtn" title="Refresh" aria-label="Refresh"><svg class="i"><use href="#i-refresh"/></svg></button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section id="view-overview" hidden>
+      <div class="grid kpis" id="kpis"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+      <div class="grid row2">
+        <div class="card">
+          <div class="card-h"><h2>Pipeline</h2><span class="sub">Hover a bar for its conversion</span></div>
+          <div class="hbars" id="funnel"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Emails sent</h2><span class="sub">Last 30 days</span></div>
+          <div class="legend"><span><i style="background:var(--series-1)"></i>First contact</span><span><i style="background:var(--series-2)"></i>Follow-up</span></div>
+          <svg id="activity" role="img" aria-label="Emails sent per day, last 30 days"></svg>
+        </div>
+      </div>
+      <div class="grid row3">
+        <div class="card">
+          <div class="card-h"><h2>By role</h2></div>
+          <div class="legend"><span><i style="background:var(--series-1)"></i>Contacted</span><span><i style="background:var(--rest)"></i>Not yet</span></div>
+          <div class="hbars" id="tracks"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Reply outcomes</h2></div>
+          <div class="hbars" id="intents"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Newest opportunities</h2><a href="#" data-goto="opps">See all</a></div>
+          <div class="mini-list" id="newest"></div>
+        </div>
+      </div>
+      <div class="grid row5">
+        <div class="card">
+          <div class="card-h"><h2>Where opportunities come from</h2><span class="sub">Site each listing was found on</span></div>
+          <div class="hbars" id="sources"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Needs contact</h2><a href="#" data-goto="opps" data-stage="needs">See all</a></div>
+          <div class="mini-list" id="needsList"></div>
+        </div>
+      </div>
+      <div class="grid row4">
+        <div class="card">
+          <div class="card-h"><h2>Quick actions</h2><span class="sub" id="qaSub">Run on GitHub</span></div>
+          <div class="qa" id="qa"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Bot activity</h2><a href="#" id="runsAll" target="_blank" rel="noopener noreferrer" hidden>All runs</a></div>
+          <div class="runs" id="runs"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h2>Your CV</h2></div>
+          <div id="cv"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITIES -->
+    <section id="view-opps" hidden>
+      <div class="toolbar">
+        <div class="seg" id="views" role="group" aria-label="Filter by stage"></div>
+      </div>
+      <div class="toolbar">
+        <div class="search"><svg class="i"><use href="#i-search"/></svg><input class="input" id="q" type="search" placeholder="Search company, role, skill, contact…" aria-label="Search"></div>
+        <select class="select" id="fTrack" aria-label="Role"></select>
+        <select class="select" id="fSort" aria-label="Sort">
+          <option value="new">Newest first</option>
+          <option value="az">Company A–Z</option>
+          <option value="status">By stage</option>
+        </select>
+      </div>
+      <div class="bulk" id="bulk">
+        <span id="bulkCount"></span>
+        <button class="btn sm" id="bulkSkip">Skip</button>
+        <button class="btn sm primary" id="bulkApprove">Approve</button>
+        <button class="btn sm icon" id="bulkClear" aria-label="Clear selection"><svg class="i"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+
+    <!-- REPLIES -->
+    <section id="view-replies" hidden>
+      <div class="list" id="replies"></div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Main navigation">
+    <button data-nav="overview"><svg class="i"><use href="#i-home"/></svg>Overview</button>
+    <button data-nav="opps"><svg class="i"><use href="#i-brief"/></svg>Opportunities<span class="count" id="tabReview"></span></button>
+    <button data-nav="replies"><svg class="i"><use href="#i-mail"/></svg>Replies</button>
+  </nav>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dTitle"></aside>
+<div class="tip" id="tip"></div>
+<div class="toast" id="toast" role="status"></div>
+<div id="modal"></div>
+<input type="file" id="cvInput" accept="application/pdf" hidden>
+
+<script>
+/* ============================================================ state & helpers */
+const CONTACTED = new Set(["Sent","Followup-Sent","Replied","Interview","Offer","Rejected","Bounced"]);
+const REPLIED = new Set(["Replied","Interview","Offer","Rejected"]);
+const STAGE_ORDER = ["Approved","Pending","Sent","Followup-Sent","Replied","Interview","Offer","Rejected","Bounced","Failed","Skipped"];
+let DATA = null, MODE = "local", view = "overview", stage = "review", openCompany = null;
+const selected = new Set();
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const icon = (id, cls = "i") => `<svg class="${cls}"><use href="#i-${id}"/></svg>`;
+const hasEmail = r => r.email && r.email !== "no_email_found";
+const pct = (a, b) => b ? Math.round(a / b * 100) + "%" : "–";
+const todayStr = () => new Date().toISOString().slice(0, 10);
+const trackLabel = k => DATA.profile.tracks[k]?.label || k || "–";
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+function jobInfo(r) {
+  // Older rows stored "Exa: role | location" in notes.
+  const m = /Exa:\s*([^|]*)\|\s*([^|]*)/.exec(r.notes || "");
+  const clean = s => (s || "").trim().replace(/^\?$/, "");
+  return {
+    title: r.job_title || clean(m?.[1]) || r.role_title || trackLabel(r.track),
+    location: r.job_location || clean(m?.[2]) || r.company_address || "",
+  };
+}
+function contactRole(r) { return (/Contact:\s*([^|]+)/.exec(r.notes || "")?.[1] || "").trim(); }
+function userNotes(r) {
+  return (r.notes || "").split("|").map(s => s.trim()).filter(s => s && !/^(Exa:|Contact:)/.test(s) && !/^Exa:/.test(s)).join(" | ");
+}
+const stCls = s => String(s || "").toLowerCase().replace(/\s+/g, "-");
+const JOB_HINTS = ["/job", "/career", "/vacanc", "/opening", "/position", "/apply", "/recruit", "greenhouse", "lever.co", "workable",
+  "smartrecruiters", "bamboohr", "recruitee", "breezy", "workday", "linkedin.com/jobs", "indeed.", "glassdoor.", "jobberman",
+  "myjobmag", "ghanajob", "jobsinghana", "wellfound", "remoteok", "himalayas", "weworkremotely", "remotive", "jobweb"];
+const isJobPage = u => JOB_HINTS.some(h => (u || "").toLowerCase().includes(h));
+function sourceLink(r) {
+  if (r.source_url) {
+    const job = isJobPage(r.source_url);
+    return { url: r.source_url, exact: true, job, host: host(r.source_url),
+      label: job ? `View job posting · ${host(r.source_url)}` : `View source page · ${host(r.source_url)}` };
+  }
+  const q = `"${r.company_name}" ${jobInfo(r).title} job`;
+  return { url: "https://www.google.com/search?q=" + encodeURIComponent(q), label: "Search for job posting", exact: false, job: false, host: "" };
+}
+function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return u; } }
+function relTime(iso) {
+  if (!iso) return "";
+  const d = (Date.now() - new Date(iso.replace(" ", "T")).getTime()) / 1000;
+  if (d < 60) return "just now";
+  if (d < 3600) return Math.round(d / 60) + " min ago";
+  if (d < 86400) return Math.round(d / 3600) + " h ago";
+  return Math.round(d / 86400) + " d ago";
+}
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("on"), 2000);
+}
+function banner(msg) { const b = $("#banner"); b.textContent = msg || ""; b.classList.toggle("on", !!msg); }
+
+/* ============================================================ tooltip */
+const tip = $("#tip");
+function showTip(e, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > innerWidth - 8) x = e.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = e.clientY - h - 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+const hideTip = () => tip.style.opacity = 0;
+function bindTips(root) {
+  root.querySelectorAll("[data-tip]").forEach(el => { el.onmousemove = e => showTip(e, el.dataset.tip); el.onmouseleave = hideTip; });
+}
+const tipRow = (c, k, v) => `<div class="r"><span class="k">${c ? `<i style="background:${c}"></i>` : ""}${esc(k)}</span><span class="tnum">${esc(v)}</span></div>`;
+
+/* ============================================================ theme */
+(function () { try { const t = localStorage.getItem("jh-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();
+$("#themeBtn").onclick = () => {
+  const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("jh-theme", next); } catch (e) {}
+  render();
+};
+
+/* ============================================================ api */
+async function api(path, opts = {}) {
+  const res = await fetch(path, { cache: "no-store", credentials: "same-origin", ...opts,
+    headers: { ...(opts.body ? { "Content-Type": "application/json" } : {}), ...(opts.headers || {}) } });
+  let body = null; try { body = await res.json(); } catch (e) {}
+  if (res.status === 401 && path !== "/api/login") { showLogin(); throw new Error("Not signed in"); }
+  if (!res.ok) throw new Error(body?.error || `HTTP ${res.status}`);
+  return body;
+}
+
+async function boot() {
+  try {
+    const s = await api("/api/session");
+    MODE = s.mode || "local";
+    if (s.missing?.length) { showApp(); banner("The dashboard isn't configured yet. Missing settings on Vercel: " + s.missing.join(", ")); return; }
+    if (!s.authed) return showLogin();
+    showApp(); await load();
+  } catch (e) {
+    showApp(); banner("Couldn't reach the dashboard backend. " + e.message);
+  }
+}
+function showLogin() {
+  $("#app").hidden = true; $("#login").hidden = false; $("#pw").focus();
+}
+function showApp() { $("#login").hidden = true; $("#app").hidden = false; }
+$("#loginForm").onsubmit = async e => {
+  e.preventDefault(); $("#loginErr").textContent = "";
+  try { await api("/api/login", { method: "POST", body: JSON.stringify({ password: $("#pw").value }) }); $("#pw").value = ""; showApp(); await load(); }
+  catch (err) { $("#loginErr").textContent = err.message === "HTTP 401" ? "Wrong password" : err.message; }
+};
+$("#logoutBtn").onclick = async () => { await api("/api/logout", { method: "POST" }).catch(() => {}); DATA = null; showLogin(); };
+
+async function load() {
+  try {
+    DATA = await api("/api/data");
+    banner("");
+    render();
+    schedulePoll();
+  } catch (e) { if (e.message !== "Not signed in") banner("Couldn't load data: " + e.message); }
+}
+async function update(companies, changes, msg) {
+  try {
+    const r = await api("/api/update", { method: "POST", body: JSON.stringify({ companies, ...changes }) });
+    toast(msg || `Saved ${r.updated} ${r.updated === 1 ? "company" : "companies"}`);
+    await load();
+  } catch (e) { if (e.message !== "Not signed in") toast("Couldn't save: " + e.message); }
+}
+$("#refreshBtn").onclick = () => load().then(() => toast("Up to date"));
+/* ---------- bot actions (GitHub Actions) */
+let fastUntil = 0, pollTimer = null;
+function schedulePoll() {
+  clearTimeout(pollTimer);
+  const running = DATA?.runs?.some(r => r.status !== "completed");
+  const fast = running || Date.now() < fastUntil;
+  pollTimer = setTimeout(() => {
+    if (!document.hidden && !openCompany && !document.activeElement?.matches("input,select,textarea")) load();
+    else schedulePoll();
+  }, fast ? 8000 : 60000);
+}
+function confirmBox({ title, body, ok = "Continue", danger = false, select = null }) {
+  return new Promise(resolve => {
+    $("#modal").innerHTML = `<div class="modal-wrap" id="mw"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+      <h3 id="mt">${esc(title)}</h3><p>${body}</p>${select ? `<select class="select" id="msel">${select}</select>` : ""}
+      <div class="row"><button class="btn" id="mno">Cancel</button><button class="btn ${danger ? "" : "primary"}" id="myes">${esc(ok)}</button></div></div></div>`;
+    const done = v => { const sel = $("#msel")?.value; $("#modal").innerHTML = ""; resolve(v ? (select ? sel : true) : false); };
+    $("#mno").onclick = () => done(false); $("#myes").onclick = () => done(true);
+    $("#mw").onclick = e => { if (e.target.id === "mw") done(false); };
+    $("#myes").focus();
+  });
+}
+const TASK_NAMES = {
+  "daily search": "Daily search", search: "Find new companies", send: "Send applications", followups: "Send follow-ups",
+  "check-replies": "Check replies", generate: "Build cover letters", "backfill-sources": "Find listing links",
+  refilter: "Re-apply filters", "test-send": "Test application",
+};
+function runName(n) { const base = (n || "").split(" (")[0]; return TASK_NAMES[base] || n; }
+async function runTask(task, arg = "", started) {
+  try {
+    await api("/api/run", { method: "POST", body: JSON.stringify({ task, arg }) });
+    toast(started || "Started on GitHub. This page updates when it's done.");
+    fastUntil = Date.now() + 4 * 60 * 1000;
+    setTimeout(load, 5000);
+  } catch (e) { if (e.message !== "Not signed in") toast(e.message); }
+}
+function followupsDue() {
+  const days = DATA.profile.limits.followup_after_days || 6, cut = Date.now() - days * 864e5;
+  return DATA.queue.filter(r => r.status === "Sent" && !r.date_followup && r.date_sent && new Date(r.date_sent.slice(0, 10)).getTime() <= cut);
+}
+async function doSend() {
+  const n = DATA.queue.filter(r => r.status === "Approved" && hasEmail(r)).length;
+  const cap = DATA.profile.limits.daily_send_cap || 15;
+  if (!n) return toast("Approve some companies first.");
+  const ok = await confirmBox({
+    title: `Send ${Math.min(n, cap)} application${Math.min(n, cap) === 1 ? "" : "s"}?`,
+    body: `Each company gets an email from <b>${esc(DATA.profile.email)}</b> with your CV and a cover letter written for its role. ` +
+      `${n > cap ? `Only ${cap} go out today (your daily limit); the rest wait for tomorrow. ` : ""}They're sent 30–60 seconds apart on GitHub, so this takes a few minutes.`,
+    ok: "Send now",
+  });
+  if (ok) runTask("send", "", "Sending started. Companies move to Contacted as each email goes out.");
+}
+$("#sendBtn").onclick = doSend;
+
+/* ============================================================ navigation */
+const TITLES = {
+  overview: ["Overview", ""],
+  opps: ["Opportunities", "Review each company, open the original listing, then approve the ones worth applying to."],
+  replies: ["Replies", "Responses from companies, classified from your inbox."],
+};
+function go(v) {
+  view = v;
+  $$("[data-nav]").forEach(b => b.setAttribute("aria-current", b.dataset.nav === v ? "page" : "false"));
+  for (const k of Object.keys(TITLES)) $("#view-" + k).hidden = k !== v;
+  try { history.replaceState(null, "", "#" + v); } catch (e) {}
+  render(); scrollTo({ top: 0 });
+}
+$$("[data-nav]").forEach(b => b.onclick = () => go(b.dataset.nav));
+document.addEventListener("click", e => { const a = e.target.closest("[data-goto]"); if (a) { e.preventDefault(); if (a.dataset.stage) stage = a.dataset.stage; go(a.dataset.goto); } });
+
+/* ============================================================ render */
+function render() {
+  if (!DATA) return;
+  const Q = DATA.queue, P = DATA.profile;
+  const first = (P.name || "").split(" ")[0] || "there";
+  $("#meName").textContent = P.name || ""; $("#meEmail").textContent = P.email || "";
+  $("#avatar").textContent = (P.name || "?").split(" ").map(s => s[0]).slice(0, 2).join("");
+  $("#logoutBtn").hidden = MODE !== "hosted";
+  const approvedN = Q.filter(r => r.status === "Approved" && hasEmail(r)).length;
+  $("#sendBtn").hidden = !DATA.capabilities?.actions || !approvedN;
+  $("#sendLabel").textContent = `Send ${approvedN} approved`;
+  const review = Q.filter(r => r.status === "Pending" && hasEmail(r)).length;
+  const unreadish = DATA.replies.length;
+  for (const id of ["#navReview", "#tabReview"]) { $(id).textContent = review || ""; $(id).hidden = !review; }
+  $("#navReplies").textContent = unreadish || ""; $("#navReplies").hidden = !unreadish;
+  renderSync();
+
+  const [t, sub] = TITLES[view];
+  const hour = new Date().getHours();
+  $("#pageTitle").textContent = view === "overview" ? `Good ${hour < 12 ? "morning" : hour < 17 ? "afternoon" : "evening"}, ${first}` : t;
+  $("#pageSub").textContent = view === "overview"
+    ? (review ? `${review} ${review === 1 ? "company is" : "companies are"} waiting for your review.` : "You're all caught up. New companies arrive every morning.")
+    : sub;
+
+  if (view === "overview") renderOverview();
+  if (view === "opps") renderOpps();
+  if (view === "replies") renderReplies();
+}
+
+function renderSync() {
+  const b = DATA.bot_run, el = $("#sync");
+  if (!b) { el.innerHTML = MODE === "local" ? `<span class="dot"></span>Local · ${esc(DATA.generated_at.slice(11, 16))}` : ""; return; }
+  const running = b.status !== "completed", failed = b.conclusion && b.conclusion !== "success";
+  el.innerHTML = `<span class="dot ${running ? "run" : failed ? "fail" : ""}"></span>` +
+    `<a href="${esc(b.url)}" target="_blank" rel="noopener noreferrer" style="color:inherit">` +
+    (running ? `${esc(runName(b.name))} running…` : failed ? `${esc(runName(b.name))} failed · ${relTime(b.updated_at)}` : `Bot ran ${relTime(b.updated_at)}`) + `</a>`;
+}
+
+/* ---------- overview */
+function renderOverview() {
+  const Q = DATA.queue, P = DATA.profile;
+  const sent = Q.filter(r => CONTACTED.has(r.status)).length;
+  const sentToday = DATA.log.filter(l => l.kind !== "followup" && l.status === "SUCCESS" && (l.date || "").startsWith(todayStr())).length;
+  const cap = P.limits.daily_send_cap || 15;
+  const review = Q.filter(r => r.status === "Pending" && hasEmail(r)).length;
+  const approved = Q.filter(r => r.status === "Approved").length;
+  const replied = Q.filter(r => REPLIED.has(r.status)).length;
+  const delivered = Q.filter(r => CONTACTED.has(r.status) && r.status !== "Bounced").length;
+  const interviews = Q.filter(r => r.status === "Interview" || r.status === "Offer").length;
+  const offers = Q.filter(r => r.status === "Offer").length;
+  $("#kpis").innerHTML = `
+    <div class="card kpi hero"><div class="label">Applications sent</div><div class="value tnum">${sent}</div>
+      <div class="note">${sentToday} of ${cap} today · ${Q.length} companies tracked</div>
+      <div class="meter" title="${sentToday} of ${cap} sent today"><i style="width:${Math.min(100, sentToday / cap * 100)}%"></i></div></div>
+    <div class="card kpi clickable" data-goto="opps" data-stage="review"><div class="label">To review</div><div class="value tnum">${review}</div><div class="note">Have an email, need your decision</div></div>
+    <div class="card kpi clickable" data-goto="opps" data-stage="approved"><div class="label">Approved</div><div class="value tnum">${approved}</div><div class="note">Go out on your next send</div></div>
+    <div class="card kpi"><div class="label">Reply rate</div><div class="value tnum">${pct(replied, delivered)}</div><div class="note">${replied} of ${delivered} delivered</div></div>
+    <div class="card kpi"><div class="label">Interviews</div><div class="value tnum">${interviews}</div><div class="note">${offers} offer${offers === 1 ? "" : "s"}</div></div>`;
+
+  // funnel: [label, value, index measured against]
+  const st = [
+    ["Found", Q.length, null],
+    ["Contact found", Q.filter(hasEmail).length, 0],
+    ["Approved", Q.filter(r => r.status === "Approved" || CONTACTED.has(r.status)).length, 1],
+    ["Sent", sent, 2],
+    ["Followed up", Q.filter(r => r.date_followup || r.status === "Followup-Sent").length, 3],
+    ["Replied", replied, 3],
+    ["Interview", interviews, 5],
+  ];
+  const max = st[0][1] || 1;
+  $("#funnel").innerHTML = st.map(([n, v, ref]) => {
+    const conv = ref === null ? "" : pct(v, st[ref][1]);
+    return hrow(n, `${v}${conv ? `<small>${conv}</small>` : ""}`, [{ c: "s1", v }], max,
+      `<b>${n}</b>${tipRow("", "Companies", v)}${conv ? tipRow("", "Of " + st[ref][0].toLowerCase(), conv) : ""}`);
+  }).join("");
+  bindTips($("#funnel"));
+
+  renderActivity();
+
+  const rows = Object.entries(P.tracks).map(([k, t]) => {
+    const all = Q.filter(r => r.track === k && r.status !== "Skipped");
+    const c = all.filter(r => CONTACTED.has(r.status)).length;
+    return { label: t.label, c, rest: all.length - c, total: all.length };
+  });
+  const tmax = Math.max(1, ...rows.map(r => r.total));
+  $("#tracks").innerHTML = rows.map(r => hrow(r.label, `${r.total}<small>${r.c} sent</small>`,
+    [{ c: "s1", v: r.c }, { c: "rest", v: r.rest }], tmax,
+    `<b>${esc(r.label)}</b>${tipRow(css("--series-1"), "Contacted", r.c)}${tipRow(css("--rest"), "Not yet", r.rest)}`)).join("");
+  bindTips($("#tracks"));
+
+  const order = ["Interested", "Requesting More Info", "Rejection", "Other", "Auto-Reply", "Bounced"];
+  const counts = {};
+  DATA.replies.forEach(r => counts[r.intent || "Other"] = (counts[r.intent || "Other"] || 0) + 1);
+  const keys = [...order.filter(k => counts[k]), ...Object.keys(counts).filter(k => !order.includes(k))];
+  const imax = Math.max(1, ...keys.map(k => counts[k]));
+  $("#intents").innerHTML = keys.length
+    ? keys.map(k => hrow(k, `${counts[k]}<small>${pct(counts[k], DATA.replies.length)}</small>`, [{ c: "s1", v: counts[k] }], imax,
+        `<b>${esc(k)}</b>${tipRow("", "Replies", counts[k])}`)).join("")
+    : `<div class="muted" style="padding:18px 0">No replies yet. They show up here once companies respond.</div>`;
+  bindTips($("#intents"));
+
+  const newest = [...Q].filter(r => r.status !== "Skipped").sort(byNewest).slice(0, 5);
+  $("#newest").innerHTML = newest.length ? newest.map(r => {
+    const j = jobInfo(r), s = sourceLink(r);
+    return `<div class="mini" data-open="${esc(r.company_name)}"><b>${esc(r.company_name)}</b>
+      <span>${esc(j.title)}${j.location ? " · " + esc(j.location) : ""}</span>
+      <a class="go btn sm ghost" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer" title="${esc(s.label)}" aria-label="${esc(s.label)}" data-stop>${icon("ext")}</a></div>`;
+  }).join("") : `<div class="muted">Nothing yet.</div>`;
+  bindOpen($("#newest"));
+  renderSources();
+  renderActions();
+}
+
+function renderSources() {
+  const active = DATA.queue.filter(r => r.status !== "Skipped");
+  const by = {};
+  let none = 0;
+  active.forEach(r => { if (r.source_url) { const h = host(r.source_url); by[h] = (by[h] || 0) + 1; } else none++; });
+  const rows = Object.entries(by).sort((a, b) => b[1] - a[1]);
+  const top = rows.slice(0, 7), other = rows.slice(7).reduce((a, [, v]) => a + v, 0);
+  if (other) top.push(["Other sites", other]);
+  const max = Math.max(1, ...top.map(x => x[1]), none);
+  const total = active.length;
+  $("#sources").innerHTML = (top.length ? top.map(([h, v]) => hrow(h, `${v}<small>${pct(v, total)}</small>`, [{ c: "s1", v }], max,
+      `<b>${esc(h)}</b>${tipRow("", "Opportunities", v)}${tipRow("", "Job postings", DATA.queue.filter(r => r.source_url && host(r.source_url) === h && isJobPage(r.source_url)).length)}`)).join("")
+      : `<div class="muted" style="padding:6px 0 10px">No listing links yet. The bot adds them every morning.</div>`)
+    + (none ? hrow("No link yet", `${none}<small>${pct(none, total)}</small>`, [{ c: "rest", v: none }], max,
+      `<b>No link yet</b>${tipRow("", "Opportunities", none)}`) : "");
+  bindTips($("#sources"));
+
+  const needs = DATA.queue.filter(r => r.status === "Needs Contact").sort(byNewest);
+  $("#needsList").innerHTML = needs.length ? needs.slice(0, 6).map(r => `<div class="mini" data-open="${esc(r.company_name)}">
+      <b>${esc(r.company_name)}</b><span>${/No website/.test(r.notes || "") ? "No website found" : esc(host(r.website) || "Website checked")} · no email</span>
+      <button class="go btn sm" data-contact="${esc(r.company_name)}" data-stop>${icon("user")}Add</button></div>`).join("")
+    : `<div class="muted">Nothing waiting. Companies whose website has no email show up here.</div>`;
+  $$("#needsList [data-contact]").forEach(b => b.onclick = () => openDrawer(b.dataset.contact, true));
+  bindOpen($("#needsList"));
+}
+
+function renderActions() {
+  const Q = DATA.queue, hosted = !!DATA.capabilities?.actions;
+  const approved = Q.filter(r => r.status === "Approved" && hasEmail(r)).length;
+  const due = followupsDue().length;
+  const noLink = Q.filter(r => !r.source_url && r.status !== "Skipped").length;
+  const busy = DATA.runs?.some(r => r.status !== "completed");
+  $("#qaSub").textContent = hosted ? (busy ? "Bot is working…" : "Runs on GitHub") : "Online dashboard only";
+  const qa = (id, ic, title, sub, badge, primary, disabled) =>
+    `<button class="qa-btn ${primary ? "primary" : ""}" data-qa="${id}" ${disabled || !hosted ? "disabled" : ""}>
+      <span class="ic">${icon(ic)}</span><div><b>${title}</b><span>${sub}</span></div>${badge !== "" ? `<span class="badge">${badge}</span>` : ""}</button>`;
+  $("#qa").innerHTML =
+    qa("send", "send", "Send approved applications", "Emails your CV + cover letter", approved, true, !approved) +
+    qa("followups", "repeat", "Send follow-ups", `Polite nudge after ${DATA.profile.limits.followup_after_days || 6} days`, due, false, !due) +
+    qa("check-replies", "inbox", "Check replies", "Also runs every morning", "", false, false) +
+    qa("search", "search", "Find new companies", "Also runs every morning", "", false, false) +
+    qa("backfill-sources", "link", "Find listing links", "For companies without one", noLink, false, !noLink) +
+    qa("test-send", "flask", "Send a test to myself", "Preview exactly what employers get", "", false, false);
+  $$("#qa [data-qa]").forEach(b => b.onclick = async () => {
+    const t = b.dataset.qa;
+    if (t === "send") return doSend();
+    if (t === "followups") {
+      const ok = await confirmBox({ title: `Send ${due} follow-up${due === 1 ? "" : "s"}?`,
+        body: `A short reply in the same email thread to companies you emailed ${DATA.profile.limits.followup_after_days || 6}+ days ago that haven't answered.`, ok: "Send follow-ups" });
+      if (ok) runTask("followups", "", "Follow-ups started.");
+      return;
+    }
+    if (t === "test-send") {
+      const opts = Object.entries(DATA.profile.tracks).map(([k, v]) => `<option value="${k}">${esc(v.label)}</option>`).join("");
+      const track = await confirmBox({ title: "Send a test to yourself", body: `Sends one sample application to <b>${esc(DATA.profile.email)}</b>. Pick which role's letter to use:`, ok: "Send test", select: opts });
+      if (track) runTask("test-send", track, "Test started. Check your inbox in a minute or two.");
+      return;
+    }
+    if (t === "backfill-sources") return runTask(t, "", `Looking up listing links for ${noLink} companies.`);
+    if (t === "search") return runTask("search", "", "Search started. New companies appear in a few minutes.");
+    runTask(t, "", "Checking your inbox.");
+  });
+
+  const runs = DATA.runs || [];
+  $("#runsAll").hidden = !runs.length;
+  if (runs[0]) $("#runsAll").href = runs[0].url.replace(/\/runs\/.*$/, "");
+  $("#runs").innerHTML = !hosted ? `<div class="muted">Bot activity shows in the online dashboard.</div>`
+    : runs.length ? runs.slice(0, 6).map(r => {
+      const cls = r.status !== "completed" ? "run" : r.conclusion === "success" ? "" : "fail";
+      const label = r.status !== "completed" ? "running" : r.conclusion === "success" ? relTime(r.updated_at) : `${r.conclusion} · ${relTime(r.updated_at)}`;
+      return `<a class="run" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer"><span class="dot ${cls}"></span><span class="nm">${esc(runName(r.name))}</span><span class="when">${esc(label)}</span></a>`;
+    }).join("") : `<div class="muted">No runs yet.</div>`;
+
+  const cvName = DATA.profile.cv_file || "CV.pdf";
+  $("#cv").innerHTML = `<div class="cvbox"><div class="ic">PDF</div><div style="min-width:0"><b>${esc(cvName)}</b><span>Attached to every application</span></div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn sm" href="/api/file?kind=cv" target="_blank" rel="noopener">${icon("file")}View</a>
+      ${hosted ? `<button class="btn sm" id="cvReplace">${icon("upload")}Replace</button>` : ""}
+    </div>`;
+  if (hosted) $("#cvReplace").onclick = () => $("#cvInput").click();
+}
+$("#cvInput").onchange = async e => {
+  const f = e.target.files[0]; e.target.value = "";
+  if (!f) return;
+  if (f.type !== "application/pdf" && !/\.pdf$/i.test(f.name)) return toast("Please choose a PDF.");
+  if (f.size > 3 * 1024 * 1024) return toast("CV must be under 3 MB.");
+  const ok = await confirmBox({ title: "Replace your CV?", body: `<b>${esc(f.name)}</b> will be attached to every application from now on. It's saved as ${esc(DATA.profile.cv_file || "your CV file")} in your private repo.`, ok: "Replace CV" });
+  if (!ok) return;
+  const b64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1]); r.onerror = rej; r.readAsDataURL(f); });
+  try { await api("/api/cv", { method: "POST", body: JSON.stringify({ data: b64 }) }); toast("CV updated"); }
+  catch (err) { toast("Couldn't upload: " + err.message); }
+};
+
+function hrow(name, numHtml, segs, max, tipHtml) {
+  const total = segs.reduce((a, s) => a + s.v, 0);
+  const width = max ? total / max * 100 : 0;
+  const inner = segs.filter(s => s.v > 0).map(s => `<i class="${s.c}" style="flex:${s.v} 1 0"></i>`).join("");
+  return `<div class="hrow" data-tip="${esc(tipHtml)}"><div class="name" title="${esc(name)}">${esc(name)}</div>
+    <div><div class="bar" style="width:${width}%;min-width:${total ? 3 : 0}px">${inner}</div></div><div class="num">${numHtml}</div></div>`;
+}
+
+function renderActivity() {
+  const svg = $("#activity");
+  const W = svg.clientWidth || 600, H = 200, m = { t: 8, r: 6, b: 24, l: 26 };
+  const days = [];
+  for (let i = 29; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(d.toISOString().slice(0, 10)); }
+  const by = Object.fromEntries(days.map(d => [d, { o: 0, f: 0 }]));
+  DATA.log.forEach(l => { const d = (l.date || "").slice(0, 10); if (by[d] && l.status === "SUCCESS") l.kind === "followup" ? by[d].f++ : by[d].o++; });
+  const maxV = Math.max(4, ...days.map(d => by[d].o + by[d].f));
+  const step = maxV <= 5 ? 1 : maxV <= 12 ? 2 : maxV <= 30 ? 5 : 10;
+  const top = Math.ceil(maxV / step) * step;
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, y = v => m.t + ih - v / top * ih;
+  const bw = iw / days.length, barW = Math.max(3, Math.min(16, bw - 4));
+  const c1 = css("--series-1"), c2 = css("--series-2"), grid = css("--grid"), axis = css("--axis");
+  const path = (x, y0, y1, w, round) => {
+    const h = y0 - y1; if (h <= 0) return ""; const r = round ? Math.min(4, w / 2, h) : 0;
+    return `M${x},${y0}V${y1 + r}${r ? `Q${x},${y1} ${x + r},${y1}H${x + w - r}Q${x + w},${y1} ${x + w},${y1 + r}` : `H${x + w}`}V${y0}Z`;
+  };
+  let s = "";
+  for (let v = 0; v <= top; v += step) {
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v ? grid : axis}"/>`;
+    s += `<text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  }
+  days.forEach((d, i) => {
+    const { o, f } = by[d], x = m.l + i * bw + (bw - barW) / 2, base = y(0), yo = y(o), yf = y(o + f);
+    if (o) s += `<path d="${path(x, base, yo, barW, !f)}" fill="${c1}"/>`;
+    if (f) s += `<path d="${path(x, yo - (o ? 2 : 0), yf, barW, true)}" fill="${c2}"/>`;
+    const label = new Date(d + "T00:00").toLocaleDateString(undefined, { day: "numeric", month: "short" });
+    if (i % 6 === 5 || i === days.length - 1) s += `<text x="${m.l + i * bw + bw / 2}" y="${H - 6}" text-anchor="middle">${label}</text>`;
+    s += `<rect x="${m.l + i * bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent" data-tip="${esc(`<b>${label}</b>${tipRow(c1, "First contact", o)}${tipRow(c2, "Follow-up", f)}`)}"/>`;
+  });
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.innerHTML = s; bindTips(svg);
+}
+
+/* ---------- opportunities */
+const STAGES = {
+  review: ["To review", r => r.status === "Pending" && hasEmail(r)],
+  approved: ["Approved", r => r.status === "Approved"],
+  contacted: ["Contacted", r => CONTACTED.has(r.status)],
+  needs: ["Needs contact", r => r.status === "Needs Contact"],
+  noemail: ["Finding email", r => r.status === "Pending" && !hasEmail(r)],
+  skipped: ["Skipped", r => r.status === "Skipped"],
+  all: ["All", () => true],
+};
+const byNewest = (a, b) => (b.date_added || "").localeCompare(a.date_added || "") || a.company_name.localeCompare(b.company_name);
+
+function renderOpps() {
+  const P = DATA.profile;
+  $("#views").innerHTML = Object.entries(STAGES).map(([k, [label, fn]]) =>
+    `<button data-stage="${k}" aria-pressed="${k === stage}">${label}<span class="n">${DATA.queue.filter(fn).length}</span></button>`).join("");
+  $$("#views [data-stage]").forEach(b => b.onclick = () => { stage = b.dataset.stage; selected.clear(); renderOpps(); });
+  const ft = $("#fTrack"), keep = ft.value;
+  ft.innerHTML = `<option value="">All roles</option>` + Object.entries(P.tracks).map(([k, t]) => `<option value="${k}">${esc(t.label)}</option>`).join("");
+  ft.value = keep;
+  renderList();
+}
+
+function visible() {
+  const q = $("#q").value.trim().toLowerCase(), ft = $("#fTrack").value, sort = $("#fSort").value;
+  let rows = DATA.queue.filter(STAGES[stage][1]).filter(r => !ft || r.track === ft)
+    .filter(r => !q || [r.company_name, r.email, r.recipient_name, r.notes, r.skills, r.job_title, r.job_location, r.website, r.source_title]
+      .join(" ").toLowerCase().includes(q));
+  if (sort === "az") rows.sort((a, b) => a.company_name.localeCompare(b.company_name));
+  else if (sort === "status") rows.sort((a, b) => STAGE_ORDER.indexOf(a.status) - STAGE_ORDER.indexOf(b.status) || byNewest(a, b));
+  else rows.sort(byNewest);
+  return rows;
+}
+
+function oppActions(r) {
+  const n = esc(r.company_name);
+  if (r.status === "Pending" && hasEmail(r)) return `<button class="btn sm" data-act="Skipped" data-c="${n}">Skip</button><button class="btn sm primary" data-act="Approved" data-c="${n}">${icon("check")}Approve</button>`;
+  if (r.status === "Approved") return `<button class="btn sm" data-act="Pending" data-c="${n}">${icon("undo")}Undo</button>`;
+  if (r.status === "Skipped") return `<button class="btn sm" data-act="Pending" data-c="${n}">${icon("undo")}Restore</button>`;
+  if (r.status === "Needs Contact") return `<button class="btn sm" data-act="Skipped" data-c="${n}">Skip</button><button class="btn sm primary" data-contact="${n}">${icon("user")}Add contact</button>`;
+  return "";
+}
+
+function renderList() {
+  const rows = visible();
+  if (!rows.length) {
+    const hint = { review: "New companies arrive every morning from the bot.", approved: "Approve companies from the To review tab.",
+      contacted: "Approved companies move here once you click Send.", noemail: "The bot checks each new company's website for an email.",
+      needs: "Companies where the website was checked but no email was found land here." }[stage] || "";
+    $("#list").innerHTML = `<div class="empty"><b>Nothing here</b>${hint}</div>`;
+  } else {
+    $("#list").innerHTML = rows.map(r => {
+      const j = jobInfo(r), s = sourceLink(r), n = esc(r.company_name);
+      const skills = (r.skills || "").split(",").map(x => x.trim()).filter(Boolean).slice(0, 4);
+      const isNew = r.date_added === todayStr();
+      const who = hasEmail(r) ? `${esc(r.recipient_name && !/team/i.test(r.recipient_name) ? r.recipient_name + " · " : "")}${esc(r.email)}`
+        : r.status === "Needs Contact" ? (/No website/.test(r.notes || "") ? "No website found" : "Website checked, no email found") : "Looking for an email…";
+      return `<article class="opp ${selected.has(r.company_name) ? "sel" : ""}" data-open="${n}">
+        <div class="check" data-stop><input type="checkbox" data-sel="${n}" ${selected.has(r.company_name) ? "checked" : ""} aria-label="Select ${n}"></div>
+        <div class="body">
+          <div class="t1"><h3>${n}</h3>${isNew ? `<span class="chip new">New</span>` : ""}<span class="status ${stCls(r.status)}"><i></i>${esc(r.status)}</span></div>
+          <div class="role">${esc(j.title)}</div>
+          <div class="meta">
+            ${j.location ? `<span>${icon("pin")}${esc(j.location)}</span>` : ""}
+            <span>${icon("user")}${who}</span>
+            ${r.website ? `<span>${icon("globe")}<a href="${esc(r.website)}" target="_blank" rel="noopener noreferrer" data-stop>${esc(host(r.website))}</a></span>` : ""}
+          </div>
+          <div class="chips"><span class="chip track">${esc(trackLabel(r.track))}</span>${skills.map(k => `<span class="chip skill">${esc(k)}</span>`).join("")}</div>
+        </div>
+        <div class="side-col">
+          <a class="src-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer" data-stop>${icon(s.exact ? "ext" : "search")}${esc(s.label)}</a>
+          <div class="acts" data-stop>${oppActions(r)}</div>
+        </div>
+      </article>`;
+    }).join("");
+  }
+  $$("#list [data-act]").forEach(b => b.onclick = () => update([b.dataset.c], { status: b.dataset.act },
+    b.dataset.act === "Approved" ? `Approved ${b.dataset.c}` : b.dataset.act === "Skipped" ? `Skipped ${b.dataset.c}` : "Moved back to review"));
+  $$("#list [data-sel]").forEach(c => c.onchange = () => { c.checked ? selected.add(c.dataset.sel) : selected.delete(c.dataset.sel); c.closest(".opp").classList.toggle("sel", c.checked); syncBulk(); });
+  $$("#list [data-contact]").forEach(b => b.onclick = () => openDrawer(b.dataset.contact, true));
+  bindOpen($("#list"));
+  syncBulk();
+}
+function syncBulk() {
+  $("#bulk").classList.toggle("on", selected.size > 0);
+  $("#bulkCount").textContent = `${selected.size} selected`;
+}
+$("#bulkApprove").onclick = () => { const c = [...selected]; selected.clear(); update(c, { status: "Approved" }, `Approved ${c.length}`); };
+$("#bulkSkip").onclick = () => { const c = [...selected]; selected.clear(); update(c, { status: "Skipped" }, `Skipped ${c.length}`); };
+$("#bulkClear").onclick = () => { selected.clear(); renderList(); };
+["#q", "#fTrack", "#fSort"].forEach(s => $(s).addEventListener("input", renderList));
+
+function bindOpen(root) {
+  root.querySelectorAll("[data-open]").forEach(el => el.onclick = e => {
+    if (e.target.closest("[data-stop], a, button, input, select")) return;
+    openDrawer(el.dataset.open);
+  });
+}
+
+/* ---------- drawer */
+function openDrawer(name, focusContact = false) {
+  const r = DATA.queue.find(x => x.company_name === name); if (!r) return;
+  openCompany = name;
+  const P = DATA.profile, j = jobInfo(r), s = sourceLink(r), n = esc(r.company_name), cr = contactRole(r);
+  const skills = (r.skills || "").split(",").map(x => x.trim()).filter(Boolean);
+  const letter = DATA.capabilities?.letters && r.letter;
+  const statusOpts = DATA.statuses.map(x => `<option ${x === r.status ? "selected" : ""}>${x}</option>`).join("");
+  const trackOpts = Object.entries(P.tracks).map(([k, t]) => `<option value="${k}" ${k === r.track ? "selected" : ""}>${esc(t.label)}</option>`).join("");
+  $("#drawer").innerHTML = `
+    <header>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px"><span class="status ${stCls(r.status)}"><i></i>${esc(r.status)}</span><span class="chip track">${esc(trackLabel(r.track))}</span></div>
+        <h2 id="dTitle">${n}</h2>
+        <div class="role">${esc(j.title)}${j.location ? " · " + esc(j.location) : ""}</div>
+      </div>
+      <button class="btn icon ghost" id="dClose" aria-label="Close">${icon("x")}</button>
+    </header>
+    <div class="content">
+      <div class="sec">
+        <h4>Job posting</h4>
+        <div class="listing">
+          ${r.source_url
+            ? `<div class="lt">${esc(r.source_title || "Listing page")}</div><div class="lu">${esc(r.source_url)}</div>`
+            : `<div class="lt">No listing link saved yet</div><div class="lu">The bot looks for it every morning. You can also use <b>Quick actions → Find listing links</b>.</div>`}
+          ${r.source_snippet ? `<p>${esc(r.source_snippet)}</p>` : `<div style="height:12px"></div>`}
+          ${skills.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${skills.map(k => `<span class="chip">${esc(k)}</span>`).join("")}</div>` : ""}
+          <a class="btn primary" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${icon(s.exact ? "ext" : "search")}${s.job ? "Open job posting" : s.exact ? "Open source page" : "Search for the job posting"}</a>
+        </div>
+      </div>
+      ${r.status === "Needs Contact" ? `<div class="sec"><h4>Needs contact</h4><div class="contact-form">
+        <div class="hint">${/No website/.test(r.notes || "") ? "The bot couldn't find this company's website." : "The bot checked the website but found no email."}
+          Look on their ${r.website ? `<a href="${esc(r.website)}" target="_blank" rel="noopener noreferrer">website</a>, ` : ""}<a href="https://www.google.com/search?q=${encodeURIComponent('"' + r.company_name + '" careers email')}" target="_blank" rel="noopener noreferrer">Google</a> or <a href="https://www.linkedin.com/search/results/companies/?keywords=${encodeURIComponent(r.company_name)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>, then add it here. The company moves back to <b>To review</b>.</div>
+        <div class="two">
+          <div class="field"><label for="cEmail">Email</label><input class="input" id="cEmail" type="email" placeholder="careers@company.com"></div>
+          <div class="field"><label for="cName">Name (optional)</label><input class="input" id="cName" placeholder="Hiring Team"></div>
+        </div>
+        <div><button class="btn primary sm" id="cSave">${icon("check")}Save contact</button></div>
+      </div></div>` : ""}
+      <div class="sec">
+        <h4>Contact</h4>
+        <dl class="kv">
+          <dt>Name</dt><dd>${esc(r.recipient_name || "–")}${cr ? ` <span class="muted">· ${esc(cr)}</span>` : ""}</dd>
+          <dt>Email</dt><dd>${hasEmail(r) ? `<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : `<span class="muted">Not found</span>`}</dd>
+          <dt>Website</dt><dd>${r.website ? `<a href="${esc(r.website)}" target="_blank" rel="noopener noreferrer">${esc(host(r.website))}</a>` : "–"}</dd>
+        </dl>
+      </div>
+      <div class="sec">
+        <h4>Timeline</h4>
+        <dl class="kv tnum">
+          <dt>Found</dt><dd>${esc(r.date_added || "–")}</dd>
+          <dt>Sent</dt><dd>${esc((r.date_sent || "").slice(0, 16) || "–")}</dd>
+          <dt>Followed up</dt><dd>${esc((r.date_followup || "").slice(0, 16) || "–")}</dd>
+          ${r.source_query ? `<dt>Found by</dt><dd class="muted">“${esc(r.source_query)}”</dd>` : ""}
+        </dl>
+      </div>
+      <div class="sec" style="display:grid;gap:12px">
+        <h4 style="margin:0">Manage</h4>
+        <div class="field"><label for="dStatus">Stage</label><select class="select" id="dStatus">${statusOpts}</select></div>
+        <div class="field"><label for="dTrack">Role track (changes the cover letter)</label><select class="select" id="dTrack">${trackOpts}</select></div>
+        <div class="field"><label for="dNotes">Notes</label><textarea class="input" id="dNotes" rows="3" placeholder="Anything to remember about this company">${esc(r.notes || "")}</textarea></div>
+        <div><button class="btn sm" id="dSaveNotes">Save notes</button></div>
+        ${letter ? `<div><a class="btn sm" href="/api/file?kind=letter&name=${encodeURIComponent(r.letter)}" target="_blank" rel="noopener">${icon("file")}Preview cover letter</a></div>`
+          : hasEmail(r) && ["Pending", "Approved"].includes(r.status) ? `<div class="muted" style="font-size:12.5px">Cover letter is built on the next bot run.</div>` : ""}
+      </div>
+    </div>
+    <footer>${r.status === "Pending" && hasEmail(r)
+      ? `<button class="btn" data-dact="Skipped">Skip</button><button class="btn primary" data-dact="Approved" style="margin-left:auto">${icon("check")}Approve for sending</button>`
+      : `<span class="muted" style="align-self:center;font-size:12.5px">${r.status === "Approved" ? "Goes out on your next send." : CONTACTED.has(r.status) ? "Update the stage above when they respond." : ""}</span>`}</footer>`;
+  $("#drawer").classList.add("on"); $("#drawer").setAttribute("aria-hidden", "false"); $("#scrim").classList.add("on");
+  $("#dClose").onclick = closeDrawer;
+  if (focusContact && $("#cEmail")) $("#cEmail").focus(); else $("#dClose").focus();
+  if ($("#cSave")) $("#cSave").onclick = () => {
+    const email = $("#cEmail").value.trim(), nm = $("#cName").value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return toast("Enter a valid email address.");
+    update([name], { email, recipient_name: nm || "Hiring Team", status: "Pending" }, `Contact saved. ${name} is back in To review.`).then(() => openDrawer(name));
+  };
+  $("#dStatus").onchange = e => update([name], { status: e.target.value }).then(() => openDrawer(name));
+  $("#dTrack").onchange = e => update([name], { track: e.target.value }, DATA.capabilities?.actions ? "Role changed. Rebuilding the cover letter…" : "Role changed").then(() => openDrawer(name));
+  $("#dSaveNotes").onclick = () => update([name], { notes: $("#dNotes").value }, "Notes saved").then(() => openDrawer(name));
+  $$("#drawer [data-dact]").forEach(b => b.onclick = () => update([name], { status: b.dataset.dact }, `${b.dataset.dact === "Approved" ? "Approved" : "Skipped"} ${name}`).then(closeDrawer));
+}
+function closeDrawer() {
+  openCompany = null;
+  $("#drawer").classList.remove("on"); $("#drawer").setAttribute("aria-hidden", "true"); $("#scrim").classList.remove("on");
+}
+$("#scrim").onclick = closeDrawer;
+document.addEventListener("keydown", e => { if (e.key === "Escape" && openCompany) closeDrawer(); });
+
+/* ---------- replies */
+function renderReplies() {
+  const reps = [...DATA.replies].reverse();
+  $("#replies").innerHTML = reps.length ? reps.map(r => {
+    const cls = r.intent === "Interested" ? "interview" : (r.intent === "Rejection" || r.intent === "Bounced") ? "rejected" : r.intent === "Requesting More Info" ? "approved" : "";
+    return `<div class="reply"><div class="top"><b>${esc(r.company_name)}</b><span class="status ${cls}"><i></i>${esc(r.intent)}</span>
+      <span class="muted" style="font-size:12.5px">${esc(r.from_email)} · ${esc((r.date_received || "").slice(0, 22))}</span></div>
+      <p>${esc(r.summary)}</p></div>`;
+  }).join("") : `<div class="empty"><b>No replies yet</b>Run <code>python check_emails.py</code> after your first sends to pull in responses.</div>`;
+}
+
+/* ============================================================ start */
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => DATA && view === "overview" && renderActivity(), 150); });
+const initial = (location.hash || "").slice(1);
+go(TITLES[initial] ? initial : "overview");
+boot();
+</script>
+</body>
+</html>
